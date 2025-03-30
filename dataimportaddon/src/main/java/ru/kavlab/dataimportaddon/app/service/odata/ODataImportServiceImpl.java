@@ -15,6 +15,7 @@ import ru.kavlab.dataimportaddon.app.service.mapping.MappingServiceImpl;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Service
@@ -115,9 +116,9 @@ public class ODataImportServiceImpl implements ODataImportService {
         while (iterator.hasNext()) {
             ClientEntity clientEntity = iterator.next();
             try {
-                boolean skipEntity = false;
+                AtomicBoolean skipEntity = new AtomicBoolean(false);
                 Object newEntity = entityMapper.mapEntity(mappingEntity, clientEntity, skipEntity);
-                if (!skipEntity) {
+                if (!skipEntity.get()) {
                     dataManager.save(newEntity);
                 }
             } catch (Exception e) {
@@ -158,9 +159,9 @@ public class ODataImportServiceImpl implements ODataImportService {
 
                         var errorStrategies = mappingService.getMappingSettings().getErrorStrategy();
                         try {
-                            boolean skipEntity = false;
+                            AtomicBoolean skipEntity = new AtomicBoolean(false);
                             Object newEntity = entityMapper.mapEntity(mappingEntity, clientEntity, skipEntity);
-                            if (!skipEntity) {
+                            if (!skipEntity.get()) {
                                 dataManager.save(newEntity);
                             }
                         } catch (Exception e) {

@@ -110,7 +110,7 @@ public class EntityMappingView extends StandardView {
                 The script field supports the use of the variables:\s
                 `Object newEntity`,\s
                 `Map<String, Object> externalProperties`,\s
-                `boolean skipEntity`""");
+                `AtomicBoolean skipEntity`""");
         optMappingEntity.ifPresent(
                 mappingEntity -> {
                     codeEditor.setValue(mappingEntity.getScript());

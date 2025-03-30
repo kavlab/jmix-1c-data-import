@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ODataEntityMapper {
 
@@ -42,7 +43,7 @@ public class ODataEntityMapper {
 
     public Object mapEntity(MappingEntity mappingEntity,
                             ClientEntity clientEntity,
-                            boolean skipEntity) {
+                            AtomicBoolean skipEntity) {
         MetaClass metaClass = metadata.getClass(mappingEntity.getEntityNameJmix());
         Object newEntity = metadata.create(metaClass.getJavaClass());
         EntityValues.setId(newEntity, UUID.randomUUID());
@@ -80,7 +81,7 @@ public class ODataEntityMapper {
     private void applyGroovyScript(MappingEntity mappingEntity,
                                    ClientEntity clientEntity,
                                    Object newEntity,
-                                   boolean skipEntity) {
+                                   AtomicBoolean skipEntity) {
         String script = mappingEntity.getScript();
         if (script != null && !script.isEmpty()) {
             Map<String, Object> externalProperties = new HashMap<>();
