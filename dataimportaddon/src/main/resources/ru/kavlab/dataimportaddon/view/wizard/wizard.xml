@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://wizard.title">
+    <data>
+        <collection id="entitiesMappingsDc" class="ru.kavlab.dataimportaddon.app.data.MappingForListView">
+            <loader id="entitiesMappingsDl" readOnly="true"/>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <layout>
+        <accordion id="panels" width="100%">
+            <accordionPanel id="connectionSettingsPanel" summaryText="1. Database connection">
+                <vbox width="80%">
+                    <textField id="urlField" label="URL" width="50%"/>
+                    <textField id="userField" label="User" width="50%"/>
+                    <passwordField id="passwordField" label="Password" width="50%"/>
+                    <hbox>
+                        <button id="testConnectionBtn" text="Connect to the database and extract metadata" icon="vaadin:check"/>
+                        <button id="connectionNextBtn" text="Next"/>
+                    </hbox>
+                </vbox>
+            </accordionPanel>
+            <accordionPanel id="entitiesMappingPanel" summaryText="2. Entity mapping">
+                <dataGrid id="entitiesMappingsDataGrid" dataContainer="entitiesMappingsDc" minWidth="100px" width="100%">
+                    <columns>
+                        <column property="upload" header="Upload"/>
+                        <column property="entityNameJmix" header="Jmix"/>
+                        <column property="entityName1C" header="1C"/>
+                        <column property="attributesMapped"/>
+                        <column property="scriptDefined"/>
+                        <column key="entity1C" sortable="false"/>
+                        <column key="attributes" sortable="false"/>
+                        <column key="script" sortable="false"/>
+                    </columns>
+                </dataGrid>
+                <button id="entitiesNextBtn" text="Next"/>
+            </accordionPanel>
+            <accordionPanel id="configurationPanel" summaryText="3. Import configuration">
+                <vbox>
+                    <tabSheet>
+                        <tab id="generalConfigurationTab" label="Configuration summary">
+                            <vbox>
+                                <textArea id="settingsArea" label="Serialized to JSON settings" readOnly="true" width="100%"
+                                          height="400px"/>
+                                <hbox>
+                                    <button id="saveConfigToFile" text="Save to file..."/>
+                                    <fileStorageUploadField id="loadConfigFromFile" uploadText="Load from file..."
+                                                            acceptedFileTypes=".json"
+                                                            fileStoragePutMode="MANUAL"/>
+                                </hbox>
+                            </vbox>
+                        </tab>
+                        <tab id="importSettingsTab" label="Advanced import settings">
+                            <vbox>
+                                <numberField id="batchSizeField" label="Batch size"
+                                             helperText="Specify the number of records to process in a single transaction. A larger batch size can improve performance but may consume more memory."
+                                             width="400px" min="0.0" max="10000.0"/>
+                                <comboBox id="loadingStrategy" label="Data handling strategy"
+                                          helperText="Choose how the import process should handle records that already exist in the database."
+                                          width="400px" visible="false"/>
+                                <comboBox id="errorStrategy" label="Error handling strategy"
+                                          helperText="Define how the import process should handle errors encountered during execution."
+                                          width="400px"/>
+                                <span text="The import process always creates new entities. Existing database records are neither updated nor deduplicated."
+                                      width="400px" classNames="text-s"/>
+                            </vbox>
+                        </tab>
+                    </tabSheet>
+                    <button id="startLoadingBtn" icon="vaadin:download" text="Start importing"/>
+                </vbox>
+            </accordionPanel>
+        </accordion>
+    </layout>
+</view>

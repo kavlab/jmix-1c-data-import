@@ -1,0 +1,8 @@
+rootProject.name = 'DataImportAddon-addon'
+
+include 'dataimportaddon'
+include 'dataimportaddon-starter'
+
+rootProject.children.each { p1 ->
+    p1.buildFileName = "${p1.name}.gradle"
+}

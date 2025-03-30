@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://jmix.io/schema/flowui/menu">
+
+    <menu id="datatools">
+        <item view="Wizard" title="msg://ru.kavlab.dataimportaddon.view.wizard/wizard.title"/>
+    </menu>
+
+</menu-config>

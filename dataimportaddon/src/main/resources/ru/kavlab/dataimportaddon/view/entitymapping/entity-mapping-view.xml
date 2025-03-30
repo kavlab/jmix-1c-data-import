@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://entityMappingView.title">
+    <actions>
+        <action id="ok" icon="vaadin:check" actionVariant="PRIMARY" text="OK"/>
+    </actions>
+    <layout>
+        <vbox>
+            <h3 id="viewTitle"/>
+            <vbox id="vBox">
+            </vbox>
+            <vbox>
+                <hbox>
+                    <button action="ok"/>
+                </hbox>
+            </vbox>
+        </vbox>
+    </layout>
+</view>
