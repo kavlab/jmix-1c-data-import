@@ -101,16 +101,16 @@ public class EntityMappingView extends StandardView {
         CodeEditor codeEditor = uiComponents.create(CodeEditor.class);
         codeEditor.setId(SCRIPT_FIELD);
         codeEditor.setMode(CodeEditorMode.GROOVY);
-        codeEditor.setMinWidth("500px");
+        codeEditor.setMinWidth("700px");
         codeEditor.getStyle().setWidth("100%");
         codeEditor.addValueChangeListener(event ->
             event.getSource().getId().ifPresent(id -> values.put(id, event.getValue()))
         );
         codeEditor.setHelperText("""
-                The script field supports the use of the variables:\s
+                You can use the variables:\s
                 `Object newEntity`,\s
                 `Map<String, Object> externalProperties`,\s
-                `AtomicBoolean skipEntity`""");
+                `AtomicBoolean skipEntity` in your script.""");
         optMappingEntity.ifPresent(
                 mappingEntity -> {
                     codeEditor.setValue(mappingEntity.getScript());
