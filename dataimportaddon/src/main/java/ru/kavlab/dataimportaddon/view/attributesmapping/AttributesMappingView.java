@@ -19,7 +19,10 @@ import ru.kavlab.dataimportaddon.app.data.PropertyFillType;
 import ru.kavlab.dataimportaddon.app.service.mapping.MappingService;
 import ru.kavlab.dataimportaddon.app.service.odata.ODataImportService;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @Route(value = "attributes-mapping-view")

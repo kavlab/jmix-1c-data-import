@@ -17,10 +17,12 @@ public class MappingSettings {
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public MappingSettings(@JsonProperty("mapping_entities") List<MappingEntity> mappingEntities,
                            @JsonProperty("batch_size") Integer batchSize,
-                           @JsonProperty("loading_strategy") String loadingStrategy,
-                           @JsonProperty("error_strategy") String errorStrategy) {
+                           @JsonProperty("loading_strategy") DuplicateEntityPolicy loadingStrategy,
+                           @JsonProperty("error_strategy") ImportErrorPolicy errorStrategy) {
         this.mappingEntities = mappingEntities;
         this.batchSize = batchSize;
+        this.loadingStrategy = loadingStrategy;
+        this.errorStrategy = errorStrategy;
     }
 
     @JsonProperty("mapping_entities")

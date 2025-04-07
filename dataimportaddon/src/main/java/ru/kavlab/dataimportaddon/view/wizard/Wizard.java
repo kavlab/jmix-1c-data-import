@@ -36,8 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import ru.kavlab.dataimportaddon.app.background.ConnectionTaskFactory;
 import ru.kavlab.dataimportaddon.app.background.ImportTaskFactory;
-import ru.kavlab.dataimportaddon.app.configuration.DuplicateEntityPolicy;
-import ru.kavlab.dataimportaddon.app.configuration.ImportErrorPolicy;
+import ru.kavlab.dataimportaddon.app.configuration.MappingSettings;
 import ru.kavlab.dataimportaddon.app.data.MappingForListView;
 import ru.kavlab.dataimportaddon.app.service.mapping.MappingServiceImpl;
 import ru.kavlab.dataimportaddon.app.service.odata.ODataImportService;
@@ -129,25 +128,27 @@ public class Wizard extends StandardView {
         settingsArea.getStyle().set("resize", "both");
         settingsArea.getStyle().set("overflow", "auto");
 
+        MappingSettings mappingSettings = mappingService.getMappingSettings();
+
         batchSizeField.addValueChangeListener(valueChangeEvent -> {
             mappingService.setBatchSize(valueChangeEvent.getValue().intValue());
             settingsArea.setValue(mappingService.getMappingSettingsAsString());
         });
-        batchSizeField.setValue(0.0);
+        batchSizeField.setValue(mappingSettings.getBatchSize().doubleValue());
 
         loadingStrategy.setItems(mappingService.duplicateEntityPolicy());
         loadingStrategy.addValueChangeListener(valueChangeEvent -> {
             mappingService.setDuplicateEntityPolicy(valueChangeEvent.getValue());
             settingsArea.setValue(mappingService.getMappingSettingsAsString());
         });
-        loadingStrategy.setValue(DuplicateEntityPolicy.SKIP.toString());
+        loadingStrategy.setValue(mappingSettings.getLoadingStrategy().toString());
 
         errorStrategy.setItems(mappingService.errorStrategies());
         errorStrategy.addValueChangeListener(valueChangeEvent -> {
             mappingService.setErrorStrategy(valueChangeEvent.getValue());
             settingsArea.setValue(mappingService.getMappingSettingsAsString());
         });
-        errorStrategy.setValue(ImportErrorPolicy.SKIP.toString());
+        errorStrategy.setValue(mappingSettings.getErrorStrategy().toString());
 
         setAvailability();
     }

@@ -4,10 +4,10 @@ import io.jmix.core.DataManager;
 import io.jmix.core.Metadata;
 import io.jmix.core.MetadataTools;
 import org.springframework.stereotype.Component;
-import ru.kavlab.dataimportaddon.app.data.*;
 import ru.kavlab.dataimportaddon.app.configuration.DuplicateEntityPolicy;
 import ru.kavlab.dataimportaddon.app.configuration.ImportErrorPolicy;
 import ru.kavlab.dataimportaddon.app.configuration.MappingSettings;
+import ru.kavlab.dataimportaddon.app.data.*;
 
 import java.util.*;
 import java.util.stream.Collectors;

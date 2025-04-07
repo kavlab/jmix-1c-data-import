@@ -14,7 +14,6 @@ import ru.kavlab.dataimportaddon.app.data.MappingProperty;
 import ru.kavlab.dataimportaddon.app.data.PropertyFillType;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Component
 public class MappingSettingsManager {
@@ -30,7 +29,7 @@ public class MappingSettingsManager {
                 .enable(SerializationFeature.EAGER_SERIALIZER_FETCH);
 
         mappingSettings = new MappingSettings(
-                new ArrayList<>(), 0, "Create new entities", "Stop on error");
+                new ArrayList<>(), 0, DuplicateEntityPolicy.SKIP, ImportErrorPolicy.ABORT);
     }
 
     public MappingSettings getMappingSettings() {
@@ -85,9 +84,9 @@ public class MappingSettingsManager {
                                  String value,
                                  String attribute) {
         mappingSettings.getMappingEntity(localEntityName)
-                .ifPresent(mappingEntity -> {
-                    addMappingProperty(mappingEntity, property, type, value, attribute);
-                });
+                .ifPresent(mappingEntity ->
+                    addMappingProperty(mappingEntity, property, type, value, attribute)
+                );
     }
 
     private void addMappingProperty(MappingEntity mappingEntity,
