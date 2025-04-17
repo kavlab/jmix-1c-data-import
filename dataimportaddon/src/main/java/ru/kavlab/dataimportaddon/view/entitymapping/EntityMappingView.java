@@ -9,7 +9,6 @@ import io.jmix.core.Messages;
 import io.jmix.flowui.UiComponents;
 import io.jmix.flowui.component.codeeditor.CodeEditor;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
-import io.jmix.flowui.kit.action.BaseAction;
 import io.jmix.flowui.kit.component.codeeditor.CodeEditorMode;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +49,6 @@ public class EntityMappingView extends StandardView {
     private ODataImportService dataImportService;
 
     private Map<String, String> values;
-
-    @ViewComponent
-    private BaseAction ok;
 
     @Subscribe
     public void onReady(final ReadyEvent event) {
