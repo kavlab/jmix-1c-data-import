@@ -10,6 +10,7 @@ import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.LoadContext;
+import io.jmix.core.Messages;
 import io.jmix.flowui.DialogWindows;
 import io.jmix.flowui.Dialogs;
 import io.jmix.flowui.Notifications;
@@ -52,9 +53,9 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 
-@Route(value = "DataImportWizard", layout = DefaultMainViewParent.class)
-@ViewController("Wizard")
-@ViewDescriptor("wizard.xml")
+@Route(value = "imp1c-wizard", layout = DefaultMainViewParent.class)
+@ViewController("imp1c_Wizard")
+@ViewDescriptor("imp1c-wizard.xml")
 public class Wizard extends StandardView {
 
     @Autowired
@@ -117,6 +118,8 @@ public class Wizard extends StandardView {
     private ImportTaskFactory importTaskFactory;
     @Autowired
     private ConnectionTaskFactory connectionTaskFactory;
+    @Autowired
+    private Messages messages;
 
     @Subscribe
     public void onInit(final InitEvent event) {
@@ -180,8 +183,8 @@ public class Wizard extends StandardView {
                 Wizard.this
         );
         dialogs.createBackgroundTaskDialog(task)
-                .withHeader("Connecting...")
-                .withText("Please wait")
+                .withHeader(messages.getMessage("ru.kavlab.dataimportaddon.view.wizard/connection"))
+                .withText(messages.getMessage("ru.kavlab.dataimportaddon.view.wizard/please-wait"))
                 .open();
     }
 
@@ -208,8 +211,8 @@ public class Wizard extends StandardView {
                 Wizard.this);
 
         dialogs.createBackgroundTaskDialog(task)
-                .withHeader("Importing data")
-                .withText("Please wait until all data has been imported")
+                .withHeader(messages.getMessage("ru.kavlab.dataimportaddon.view.wizard/importing-data"))
+                .withText(messages.getMessage("ru.kavlab.dataimportaddon.view.wizard/importing-data-please-wait"))
                 .withTotal(totalCount)
                 .withShowProgressInPercentage(true)
                 .withCancelAllowed(true)
@@ -232,7 +235,8 @@ public class Wizard extends StandardView {
             if (file != null) {
                 String fileName = event.getFileName();
                 if (!fileName.toLowerCase(Locale.ROOT).endsWith(".json")) {
-                    notifications.create("Invalid file format. Upload JSON.")
+                    notifications.create(messages.getMessage(
+                            "ru.kavlab.dataimportaddon.view.wizard/invalid-file-format"))
                             .withType(Notifications.Type.WARNING)
                             .show();
                     return;
@@ -242,7 +246,8 @@ public class Wizard extends StandardView {
                 try {
                     jsonContent = Files.readString(file.toPath(), StandardCharsets.UTF_8);
                 } catch (IOException e) {
-                    notifications.create("Error reading file: " + e.getMessage())
+                    notifications.create(messages.getMessage(
+                            "ru.kavlab.dataimportaddon.view.wizard/error-reading-file") + ": " + e.getMessage())
                             .withType(Notifications.Type.ERROR)
                             .show();
                     return;
@@ -252,11 +257,13 @@ public class Wizard extends StandardView {
                     settingsArea.setValue(mappingService.getMappingSettingsAsString());
                     batchSizeField.setValue(mappingService.getMappingSettings().getBatchSize().doubleValue());
                     errorStrategy.setValue(mappingService.getMappingSettings().getErrorStrategy().toString());
-                    notifications.create("File uploaded successfully.")
+                    notifications.create(messages.getMessage(
+                            "ru.kavlab.dataimportaddon.view.wizard/file-upload-successfully"))
                             .withType(Notifications.Type.SUCCESS)
                             .show();
                 } else {
-                    notifications.create("Invalid file format.")
+                    notifications.create(messages.getMessage(
+                                    "ru.kavlab.dataimportaddon.view.wizard/invalid-file-format"))
                             .withType(Notifications.Type.ERROR)
                             .show();
                 }
@@ -318,9 +325,9 @@ public class Wizard extends StandardView {
         button.getElement().getThemeList().add("secondary");
         button.getElement().getThemeList().add("small");
         button.addClickListener(e -> {
-                    if ("1C entity".equals(text)) {
+                    if (messages.getMessage("ru.kavlab.dataimportaddon.view.wizard/1c-entity").equals(text)) {
                         openEditDialog(entity, EntityMappingView.DialogType.ENTITY);
-                    } else if ("script".equals(text)) {
+                    } else if (messages.getMessage("ru.kavlab.dataimportaddon.view.wizard/script").equals(text)) {
                         openEditDialog(entity, EntityMappingView.DialogType.SCRIPT);
                     } else {
                         openEditDialog(entity, null);
@@ -332,17 +339,23 @@ public class Wizard extends StandardView {
 
     @Supply(to = "entitiesMappingsDataGrid.entity1C", subject = "renderer")
     private Renderer<MappingForListView> entitiesMappingsDataGridEntity1CRenderer() {
-        return new ComponentRenderer<>(entity -> createDataGridButton(entity, "1C entity"));
+        return new ComponentRenderer<>(entity -> createDataGridButton(
+                entity,
+                messages.getMessage("ru.kavlab.dataimportaddon.view.wizard/1c-entity")));
     }
 
     @Supply(to = "entitiesMappingsDataGrid.attributes", subject = "renderer")
     private Renderer<MappingForListView> entitiesMappingsDataGridAttributesRenderer() {
-        return new ComponentRenderer<>(entity -> createDataGridButton(entity, "attributes"));
+        return new ComponentRenderer<>(entity -> createDataGridButton(
+                entity,
+                messages.getMessage("ru.kavlab.dataimportaddon.view.wizard/attributes")));
     }
 
     @Supply(to = "entitiesMappingsDataGrid.script", subject = "renderer")
     private Renderer<MappingForListView> entitiesMappingsDataGridScriptRenderer() {
-        return new ComponentRenderer<>(entity -> createDataGridButton(entity, "script"));
+        return new ComponentRenderer<>(entity -> createDataGridButton(
+                entity,
+                messages.getMessage("ru.kavlab.dataimportaddon.view.wizard/script")));
     }
 
     protected void openEditDialog(MappingForListView entity, EntityMappingView.DialogType dialogType) {

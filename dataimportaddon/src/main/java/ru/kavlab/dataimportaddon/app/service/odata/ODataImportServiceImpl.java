@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
-@Service
+@Service("imp1c_ODataImportServiceImpl")
 public class ODataImportServiceImpl implements ODataImportService {
 
     private static final Logger log = LoggerFactory.getLogger(ODataImportServiceImpl.class);

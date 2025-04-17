@@ -20,9 +20,9 @@ import java.util.Collections;
 @ConfigurationPropertiesScan
 @JmixModule(dependsOn = {EclipselinkConfiguration.class, FlowuiConfiguration.class})
 @PropertySource(name = "ru.kavlab.dataimportaddon", value = "classpath:/ru/kavlab/dataimportaddon/module.properties")
-public class DiaConfiguration {
+public class Imp1cConfiguration {
 
-    @Bean("dia_DiaViewControllers")
+    @Bean("imp1c_DiaViewControllers")
     public ViewControllersConfiguration screens(final ApplicationContext applicationContext,
                                                 final AnnotationScanMetadataReaderFactory metadataReaderFactory) {
         final ViewControllersConfiguration viewControllers
@@ -31,7 +31,7 @@ public class DiaConfiguration {
         return viewControllers;
     }
 
-    @Bean("dia_DiaActions")
+    @Bean("imp1c_DiaActions")
     public ActionsConfiguration actions(final ApplicationContext applicationContext,
                                         final AnnotationScanMetadataReaderFactory metadataReaderFactory) {
         final ActionsConfiguration actions

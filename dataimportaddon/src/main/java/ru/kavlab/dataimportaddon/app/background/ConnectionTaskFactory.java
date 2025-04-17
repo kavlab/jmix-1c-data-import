@@ -10,7 +10,7 @@ import ru.kavlab.dataimportaddon.app.service.odata.ODataImportService;
 
 import java.util.concurrent.TimeUnit;
 
-@Component
+@Component("imp1c_ConnectionTaskFactory")
 public class ConnectionTaskFactory {
 
     @Autowired

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Component
+@Component("imp1c_LocalMetadataExtractor")
 public class LocalMetadataExtractor {
 
     public Map<String, Map<String, PropertyInfo>> extract(Metadata metadata, MetadataTools metadataTools) {

@@ -15,7 +15,7 @@ import ru.kavlab.dataimportaddon.app.data.PropertyFillType;
 
 import java.util.ArrayList;
 
-@Component
+@Component("imp1c_MappingSettingsManager")
 public class MappingSettingsManager {
 
     private static final Logger log = LoggerFactory.getLogger(MappingSettingsManager.class);

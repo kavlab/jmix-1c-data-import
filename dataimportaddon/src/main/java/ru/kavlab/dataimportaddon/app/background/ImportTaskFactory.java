@@ -11,7 +11,7 @@ import ru.kavlab.dataimportaddon.app.service.odata.ODataImportService;
 
 import java.util.concurrent.TimeUnit;
 
-@Component
+@Component("imp1c_ImportTaskFactory")
 public class ImportTaskFactory {
 
     @Autowired

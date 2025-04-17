@@ -7,7 +7,7 @@ import io.jmix.core.metamodel.annotation.JmixEntity;
 
 import java.util.UUID;
 
-@JmixEntity
+@JmixEntity(name = "imp1c_MappingForListView")
 public class MappingForListView {
     @JmixGeneratedValue
     @JmixId

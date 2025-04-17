@@ -5,6 +5,7 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import io.jmix.core.Messages;
 import io.jmix.flowui.UiComponents;
 import io.jmix.flowui.component.codeeditor.CodeEditor;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
@@ -18,15 +19,17 @@ import ru.kavlab.dataimportaddon.app.service.odata.ODataImportService;
 import java.util.HashMap;
 import java.util.Map;
 
-@Route(value = "entity-mapping-view")
-@ViewController(id = "EntityMappingView")
-@ViewDescriptor(path = "entity-mapping-view.xml")
+@Route(value = "imp1c-entity-mapping-view")
+@ViewController("imp1c_EntityMappingView")
+@ViewDescriptor(path = "imp1c-entity-mapping-view.xml")
 public class EntityMappingView extends StandardView {
 
     private final String EXTERNAL_ENTITY_FIELD = "entityNameField";
     private final String SCRIPT_FIELD = "scriptField";
 
     private String localEntityName;
+    @Autowired
+    private Messages messages;
 
     public enum DialogType {
         ENTITY, SCRIPT
@@ -54,7 +57,10 @@ public class EntityMappingView extends StandardView {
     @Subscribe
     public void onReady(final ReadyEvent event) {
         if (localEntityName != null) {
-            viewTitle.setText("Mapping for " + localEntityName);
+            viewTitle.setText(
+                    messages.getMessage(
+                            "ru.kavlab.dataimportaddon.view.entitymapping/entity-mapping"
+                    ) + " " + localEntityName);
         }
 
         values = new HashMap<>();
@@ -74,7 +80,7 @@ public class EntityMappingView extends StandardView {
         ComboBox<String> comboBox = (ComboBox<String>) uiComponents.create(ComboBox.class);
         comboBox.setClearButtonVisible(true);
         comboBox.setId(EXTERNAL_ENTITY_FIELD);
-        comboBox.setLabel("1C entity");
+        comboBox.setLabel(messages.getMessage("ru.kavlab.dataimportaddon.view.entitymapping/field-1c-entity"));
         comboBox.setMinWidth("300px");
         comboBox.setItems(dataImportService.getExternalMetadataNames());
         comboBox.addValueChangeListener(event ->
@@ -106,11 +112,8 @@ public class EntityMappingView extends StandardView {
         codeEditor.addValueChangeListener(event ->
             event.getSource().getId().ifPresent(id -> values.put(id, event.getValue()))
         );
-        codeEditor.setHelperText("""
-                You can use the variables:\s
-                `Object newEntity`,\s
-                `Map<String, Object> externalProperties`,\s
-                `AtomicBoolean skipEntity` in your script.""");
+        codeEditor.setHelperText(messages.getMessage(
+                "ru.kavlab.dataimportaddon.view.entitymapping/field-code-helper"));
         optMappingEntity.ifPresent(
                 mappingEntity -> {
                     codeEditor.setValue(mappingEntity.getScript());

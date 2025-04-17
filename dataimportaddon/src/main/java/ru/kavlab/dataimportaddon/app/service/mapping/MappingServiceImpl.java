@@ -12,7 +12,7 @@ import ru.kavlab.dataimportaddon.app.data.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Component
+@Component("imp1c_MappingServiceImpl")
 public class MappingServiceImpl implements MappingService {
 
     private final List<MappingForListView> mappingsForListView;

@@ -9,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+import io.jmix.core.Messages;
 import io.jmix.flowui.UiComponents;
 import io.jmix.flowui.kit.action.ActionPerformedEvent;
 import io.jmix.flowui.kit.action.BaseAction;
@@ -25,9 +26,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-@Route(value = "attributes-mapping-view")
-@ViewController("AttributesMappingView")
-@ViewDescriptor("attributes-mapping-view.xml")
+@Route(value = "imp1c-attributes-mapping-view")
+@ViewController("imp1c_AttributesMappingView")
+@ViewDescriptor("imp1c-attributes-mapping-view.xml")
 public class AttributesMappingView extends StandardView {
 
     protected String localEntityName;
@@ -43,6 +44,8 @@ public class AttributesMappingView extends StandardView {
     private BaseAction ok;
     @ViewComponent
     private H3 viewTitle;
+    @Autowired
+    private Messages messages;
 
     public void setLocalEntityName(String localEntityName) {
         this.localEntityName = localEntityName;
@@ -97,7 +100,8 @@ public class AttributesMappingView extends StandardView {
             TextField tfJmixAttr = uiComponents.create(TextField.class);
             tfJmixAttr.setValue(propertyName);
             if (showLabels) {
-                tfJmixAttr.setLabel("Jmix attribute");
+                tfJmixAttr.setLabel(messages.getMessage(
+                        "ru.kavlab.dataimportaddon.view.attributesmapping/field-jmix-attribute"));
             }
             tfJmixAttr.setReadOnly(true);
 
@@ -106,7 +110,8 @@ public class AttributesMappingView extends StandardView {
             cbType.setClearButtonVisible(true);
             cbType.setId(propertyName + "TypeField");
             if (showLabels) {
-                cbType.setLabel("Type");
+                cbType.setLabel(messages.getMessage(
+                        "ru.kavlab.dataimportaddon.view.attributesmapping/field-type"));
             }
             if (propertyInfo.getJavaType().equals(String.class)) {
                 cbType.setItems(fullTypeList);
@@ -121,7 +126,8 @@ public class AttributesMappingView extends StandardView {
             tfConst.setClearButtonVisible(true);
             tfConst.setId(propertyName + "ValueField");
             if (showLabels) {
-                tfConst.setLabel("Value");
+                tfConst.setLabel(messages.getMessage(
+                        "ru.kavlab.dataimportaddon.view.attributesmapping/field-value"));
             }
             if (cbType.getValue() == null) {
                 tfConst.setVisible(false);
@@ -137,7 +143,8 @@ public class AttributesMappingView extends StandardView {
             cb1CAttr.setClearButtonVisible(true);
             cb1CAttr.setId(propertyName + "AttrField");
             if (showLabels) {
-                cb1CAttr.setLabel("1C attribute");
+                cb1CAttr.setLabel(messages.getMessage(
+                        "ru.kavlab.dataimportaddon.view.attributesmapping/field-1c-attr"));
             }
             cb1CAttr.setMinWidth("300px");
             cb1CAttr.setItems(externalProperties);

@@ -14,10 +14,10 @@ import javax.sql.DataSource;
 
 @SpringBootConfiguration
 @EnableAutoConfiguration
-@Import(DiaConfiguration.class)
+@Import(Imp1cConfiguration.class)
 @PropertySource("classpath:/ru/kavlab/dataimportaddon/test-app.properties")
-@JmixModule(id = "ru.kavlab.dataimportaddon.test", dependsOn = DiaConfiguration.class)
-public class DiaTestConfiguration {
+@JmixModule(id = "ru.kavlab.dataimportaddon.test", dependsOn = Imp1cConfiguration.class)
+public class Imp1cTestConfiguration {
 
     @Bean
     @Primary

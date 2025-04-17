@@ -8,7 +8,7 @@ buildscript {
 }
 
 group = 'ru.kavlab'
-version = '0.9.0'
+version = '0.9.1'
 
 subprojects {
     apply plugin: 'java-library'
@@ -31,7 +31,7 @@ subprojects {
 
     jmix {
         bomVersion = '2.5.0'
-        projectId = 'dia'
+        projectId = 'imp1c'
     }
 
     group = this.group
