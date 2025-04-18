@@ -1,5 +1,6 @@
 package ru.kavlab.dataimportaddon.app.background;
 
+import io.jmix.core.Messages;
 import io.jmix.flowui.Notifications;
 import io.jmix.flowui.backgroundtask.BackgroundTask;
 import io.jmix.flowui.backgroundtask.TaskLifeCycle;
@@ -17,6 +18,11 @@ public class ConnectionTaskFactory {
     private ODataImportService oDataImportService;
     @Autowired
     private Notifications notifications;
+    @Autowired
+    private Messages messages;
+
+    public ConnectionTaskFactory() {
+    }
 
     public BackgroundTask<Integer, Boolean> create(String url,
                                                    String user,
@@ -27,6 +33,7 @@ public class ConnectionTaskFactory {
                 view,
                 oDataImportService,
                 notifications,
+                messages,
                 url,
                 user,
                 password,
@@ -38,6 +45,7 @@ public class ConnectionTaskFactory {
 
         private final ODataImportService oDataImportService;
         private final Notifications notifications;
+        private final Messages messages;
         private final String url;
         private final String user;
         private final String password;
@@ -46,6 +54,7 @@ public class ConnectionTaskFactory {
         public ConnectionTask(StandardView view,
                               ODataImportService oDataImportService,
                               Notifications notifications,
+                              Messages messages,
                               String url,
                               String user,
                               String password,
@@ -53,6 +62,7 @@ public class ConnectionTaskFactory {
             super(60, TimeUnit.SECONDS, view);
             this.oDataImportService = oDataImportService;
             this.notifications = notifications;
+            this.messages = messages;
             this.url = url;
             this.user = user;
             this.password = password;
@@ -67,7 +77,8 @@ public class ConnectionTaskFactory {
 
         @Override
         public boolean handleTimeoutException() {
-            notifications.show("Timeout!");
+            notifications.show(messages.getMessage(
+                    "ru.kavlab.dataimportaddon.notifications/timeout"));
             return super.handleTimeoutException();
         }
 
@@ -76,9 +87,11 @@ public class ConnectionTaskFactory {
             super.done(result);
             if (result) {
                 onComplete.run();
-                notifications.show("Metadata successfully extracted!");
+                notifications.show(messages.getMessage(
+                        "ru.kavlab.dataimportaddon.notifications/metadata-extracted"));
             } else {
-                notifications.show("Failed!");
+                notifications.show(messages.getMessage(
+                        "ru.kavlab.dataimportaddon.notifications/failed"));
             }
         }
     }

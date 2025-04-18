@@ -53,10 +53,17 @@ public class EntityMappingView extends StandardView {
     @Subscribe
     public void onReady(final ReadyEvent event) {
         if (localEntityName != null) {
-            viewTitle.setText(
-                    messages.getMessage(
-                            "ru.kavlab.dataimportaddon.view.entitymapping/entity-mapping"
-                    ) + " " + localEntityName);
+            if (dialogType == DialogType.SCRIPT) {
+                viewTitle.setText(
+                        messages.getMessage(
+                                "ru.kavlab.dataimportaddon.view.entitymapping/entity-mapping-script"
+                        ) + " " + localEntityName);
+            } else {
+                viewTitle.setText(
+                        messages.getMessage(
+                                "ru.kavlab.dataimportaddon.view.entitymapping/entity-mapping"
+                        ) + " " + localEntityName);
+            }
         }
 
         values = new HashMap<>();

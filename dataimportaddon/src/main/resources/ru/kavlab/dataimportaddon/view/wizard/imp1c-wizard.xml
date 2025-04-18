@@ -14,7 +14,7 @@
             <accordionPanel id="connectionSettingsPanel" summaryText="msg://connectionSettingsPanel.summaryText">
                 <vbox width="80%">
                     <textField id="urlField" label="URL" width="50%"/>
-                    <textField id="userField" label="User" width="50%"/>
+                    <textField id="userField" label="msg://userField.label" width="50%"/>
                     <passwordField id="passwordField" label="msg://passwordField.label" width="50%"/>
                     <hbox>
                         <button id="testConnectionBtn" text="msg://testConnectionBtn.text" icon="vaadin:check"/>

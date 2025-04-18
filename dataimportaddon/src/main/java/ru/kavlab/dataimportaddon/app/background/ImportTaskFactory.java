@@ -1,5 +1,6 @@
 package ru.kavlab.dataimportaddon.app.background;
 
+import io.jmix.core.Messages;
 import io.jmix.flowui.Notifications;
 import io.jmix.flowui.backgroundtask.BackgroundTask;
 import io.jmix.flowui.backgroundtask.TaskLifeCycle;
@@ -20,6 +21,8 @@ public class ImportTaskFactory {
     private MappingService mappingService;
     @Autowired
     private Notifications notifications;
+    @Autowired
+    private Messages messages;
 
     public BackgroundTask<Integer, Boolean> create(int totalCount,
                                                    Runnable onComplete,
@@ -30,6 +33,7 @@ public class ImportTaskFactory {
                 oDataImportService,
                 mappingService,
                 notifications,
+                messages,
                 totalCount,
                 onComplete
         );
@@ -40,6 +44,7 @@ public class ImportTaskFactory {
         private final ODataImportService oDataImportService;
         private final MappingService mappingService;
         private final Notifications notifications;
+        private final Messages messages;
         private final int totalCount;
         private final Runnable onComplete;
 
@@ -47,12 +52,14 @@ public class ImportTaskFactory {
                           ODataImportService oDataImportService,
                           MappingService mappingService,
                           Notifications notifications,
+                          Messages messages,
                           int totalCount,
                           Runnable onComplete) {
             super(60, TimeUnit.SECONDS, view);
             this.oDataImportService = oDataImportService;
             this.mappingService = mappingService;
             this.notifications = notifications;
+            this.messages = messages;
             this.totalCount = totalCount;
             this.onComplete = onComplete;
         }
@@ -73,14 +80,17 @@ public class ImportTaskFactory {
         @Override
         public void done(Boolean result) {
             if (result) {
-                notifications.show("Data import has been successfully completed!");
+                notifications.show(messages.getMessage(
+                        "ru.kavlab.dataimportaddon.notifications/import-successfully"));
                 onComplete.run();
             }
         }
 
         @Override
         public boolean handleException(Exception ex) {
-            notifications.show("Data import error: " + ex.getMessage());
+            notifications.show( messages.getMessage(
+                    "ru.kavlab.dataimportaddon.notifications/import-error"
+            ) + " " + ex.getMessage());
             return true;
         }
     }

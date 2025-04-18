@@ -61,7 +61,7 @@ public class AttributesMappingView extends StandardView {
         if (localEntityName != null) {
             mappingService.getMappingEntityByLocalName(localEntityName)
                     .ifPresent(me -> {
-                                viewTitle.setText(me.getEntityName1C() + " to " + me.getEntityNameJmix());
+                                viewTitle.setText(me.getEntityName1C() + " -> " + me.getEntityNameJmix());
                                 vBox.addComponentAsFirst(createForm(me));
                             }
                     );
