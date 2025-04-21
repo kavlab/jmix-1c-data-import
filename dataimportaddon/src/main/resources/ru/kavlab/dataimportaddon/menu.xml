@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<menu-config xmlns="http://jmix.io/schema/flowui/menu">
+<menu-config xmlns="http://jmix.io/schema/flowui/menu" order="5000">
 
-    <menu id="datatools">
+    <menu id="imp1c" title="msg://ru.kavlab.dataimportaddon/menu-title">
         <item view="imp1c_Wizard" title="msg://ru.kavlab.dataimportaddon.view.wizard/wizard.title"/>
     </menu>
 
