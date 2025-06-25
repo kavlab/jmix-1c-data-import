@@ -17,6 +17,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-web'
 
     testRuntimeOnly 'org.hsqldb:hsqldb'
+
+    testCompileOnly 'junit:junit:4.13.2'
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.9.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 configurations.implementation {
