@@ -36,11 +36,9 @@ subprojects {
     group = this.group
     version = this.version
 
-    def props = new Properties()
-    buildFile.withInputStream { props.load(it) }
-    def subArchivesBaseName = props.getProperty('archivesBaseName')
-    def archName = subArchivesBaseName.substring(1, subArchivesBaseName.length() - 1)
-
+    def subArchivesBaseName = project.base.archivesName.get()
+    def archName = subArchivesBaseName
+    
     java {
         withSourcesJar()
     }

@@ -1,4 +1,6 @@
-archivesBaseName = 'dataimportaddon'
+base {
+    archivesName = 'dataimportaddon'
+}
 
 dependencies {
     implementation 'io.jmix.core:jmix-core-starter'
