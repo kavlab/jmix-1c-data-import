@@ -1,4 +1,4 @@
-archivesBaseName = 'dataimportaddon-starter'
+base.archivesName = 'dataimportaddon-starter'
 
 jmix {
     entitiesEnhancing {
