@@ -5,7 +5,6 @@ import com.vaadin.flow.component.accordion.AccordionPanel;
 import com.vaadin.flow.component.details.Details;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.upload.Receiver;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.router.Route;
@@ -24,7 +23,6 @@ import io.jmix.flowui.component.textfield.JmixNumberField;
 import io.jmix.flowui.component.textfield.JmixPasswordField;
 import io.jmix.flowui.component.textfield.TypedTextField;
 import io.jmix.flowui.component.upload.FileStorageUploadField;
-import io.jmix.flowui.component.upload.receiver.FileTemporaryStorageBuffer;
 import io.jmix.flowui.download.DownloadFormat;
 import io.jmix.flowui.download.Downloader;
 import io.jmix.flowui.kit.component.button.JmixButton;
@@ -50,7 +48,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.UUID;
 
 @Route(value = "imp1c-wizard", layout = DefaultMainViewParent.class)
@@ -226,52 +223,49 @@ public class Wizard extends StandardView {
     }
 
     @Subscribe("loadConfigFromFile")
-    public void onLoadConfigFromFileFileUploadSucceeded(final FileUploadSucceededEvent<FileStorageUploadField> event) {
-        Receiver receiver = event.getReceiver();
-        if (receiver instanceof FileTemporaryStorageBuffer storageBuffer) {
-            UUID fileId = Objects.requireNonNull(storageBuffer.getFileData()).getFileInfo().getId();
-            File file = temporaryStorage.getFile(fileId);
+    public void onLoadConfigFromFileFileUploadSucceeded(final FileUploadSucceededEvent<FileStorageUploadField, TemporaryStorage.FileInfo> event) {
+        TemporaryStorage.FileInfo fileInfo = event.getData();
+        UUID fileId = fileInfo.getId();
+        File file = temporaryStorage.getFile(fileId);
 
-            if (file != null) {
-                String fileName = event.getFileName();
-                if (!fileName.toLowerCase(Locale.ROOT).endsWith(".json")) {
-                    notifications.create(messages.getMessage(
-                            "ru.kavlab.dataimportaddon.view.wizard/invalid-file-format"))
-                            .withType(Notifications.Type.WARNING)
-                            .show();
-                    return;
-                }
-
-                String jsonContent;
-                try {
-                    jsonContent = Files.readString(file.toPath(), StandardCharsets.UTF_8);
-                } catch (IOException e) {
-                    notifications.create(messages.getMessage(
-                            "ru.kavlab.dataimportaddon.view.wizard/error-reading-file") + ": " + e.getMessage())
-                            .withType(Notifications.Type.ERROR)
-                            .show();
-                    return;
-                }
-
-                if (mappingService.loadMappingSettingsFromString(jsonContent)) {
-                    settingsArea.setValue(mappingService.getMappingSettingsAsString());
-                    batchSizeField.setValue(mappingService.getMappingSettings().getBatchSize().doubleValue());
-                    errorStrategy.setValue(mappingService.getMappingSettings().getErrorStrategy().toString());
-                    notifications.create(messages.getMessage(
-                            "ru.kavlab.dataimportaddon.view.wizard/file-upload-successfully"))
-                            .withType(Notifications.Type.SUCCESS)
-                            .show();
-                } else {
-                    notifications.create(messages.getMessage(
-                                    "ru.kavlab.dataimportaddon.view.wizard/invalid-file-format"))
-                            .withType(Notifications.Type.ERROR)
-                            .show();
-                }
-                entitiesMappingsDl.load();
-
-                temporaryStorage.deleteFile(fileId);
+        if (file != null) {
+            String fileName = event.getFileName();
+            if (!fileName.toLowerCase(Locale.ROOT).endsWith(".json")) {
+                notifications.create(messages.getMessage(
+                        "ru.kavlab.dataimportaddon.view.wizard/invalid-file-format"))
+                        .withType(Notifications.Type.WARNING)
+                        .show();
+                return;
             }
 
+            String jsonContent;
+            try {
+                jsonContent = Files.readString(file.toPath(), StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                notifications.create(messages.getMessage(
+                        "ru.kavlab.dataimportaddon.view.wizard/error-reading-file") + ": " + e.getMessage())
+                        .withType(Notifications.Type.ERROR)
+                        .show();
+                return;
+            }
+
+            if (mappingService.loadMappingSettingsFromString(jsonContent)) {
+                settingsArea.setValue(mappingService.getMappingSettingsAsString());
+                batchSizeField.setValue(mappingService.getMappingSettings().getBatchSize().doubleValue());
+                errorStrategy.setValue(mappingService.getMappingSettings().getErrorStrategy().toString());
+                notifications.create(messages.getMessage(
+                        "ru.kavlab.dataimportaddon.view.wizard/file-upload-successfully"))
+                        .withType(Notifications.Type.SUCCESS)
+                        .show();
+            } else {
+                notifications.create(messages.getMessage(
+                                "ru.kavlab.dataimportaddon.view.wizard/invalid-file-format"))
+                        .withType(Notifications.Type.ERROR)
+                        .show();
+            }
+            entitiesMappingsDl.load();
+
+            temporaryStorage.deleteFile(fileId);
         }
     }
 

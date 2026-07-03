@@ -3,7 +3,7 @@ buildscript {
         gradlePluginPortal()
     }
     dependencies {
-        classpath 'io.jmix.gradle:jmix-gradle-plugin:2.7.0'
+        classpath 'io.jmix.gradle:jmix-gradle-plugin:3.0.0'
         classpath 'org.apache.groovy:groovy:4.0.23'
         classpath 'org.apache.groovy:groovy-xml:4.0.23'
     }
@@ -31,7 +31,7 @@ subprojects {
     }
 
     jmix {
-        bomVersion = '2.7.0-RC2'
+        bomVersion = '3.0.0'
         projectId = 'imp1c'
     }
 
@@ -42,6 +42,9 @@ subprojects {
     def archName = subArchivesBaseName
 
     java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
         withSourcesJar()
     }
 
