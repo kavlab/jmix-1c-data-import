@@ -1,6 +1,6 @@
 package ru.kavlab.dataimportaddon.app.configuration;
 
-import org.springframework.lang.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public enum ImportErrorPolicy {
     SKIP("Skip errors"),

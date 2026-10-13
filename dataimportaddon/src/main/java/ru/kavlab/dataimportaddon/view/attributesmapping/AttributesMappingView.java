@@ -41,7 +41,7 @@ public class AttributesMappingView extends StandardView {
     @ViewComponent
     private VerticalLayout vBox;
     @ViewComponent
-    private BaseAction ok;
+    private BaseAction<?> ok;
     @ViewComponent
     private H3 viewTitle;
     @Autowired
